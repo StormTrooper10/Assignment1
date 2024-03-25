@@ -33,4 +33,4 @@ jobs:
         with:
           # Use the same tag as in step 3
           push: true
-          tags: supertwo/assignment1:latest
+          tags: supertwo/Assignment1:latest

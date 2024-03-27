@@ -24,10 +24,8 @@ pipeline {
             steps {
                 // Build Docker image
                 script {
-                    docker.withRegistry('', 'dockerHubCredentials') {
                         docker.build('assignment1:latest')
                         docker.image('assignment1:latest').push()
-                    }
                 }
             }
         }

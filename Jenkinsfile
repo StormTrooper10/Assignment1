@@ -4,22 +4,44 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                // Checkout the code from the repository
+                git branch: 'main', url: 'https://github.com/StormTrooper10/Assignment1.git'
             }
         }
-        stage('Build') {
+        stage('Install dependencies') {
             steps {
-                sh 'mvn clean package' // Example Maven build command
+                // Install dependencies using pip
+                sh 'pip install -r requirements.txt'
             }
         }
-        stage('Containerize') {
+        stage('Run tests') {
             steps {
+                // Run tests using pytest
+                sh 'pytest'
+            }
+        }
+        stage('Build Docker image') {
+            steps {
+                // Build Docker image
                 script {
-                    docker.build('yourdockerhubusername/yourapp:latest')
+                    docker.build('assignment1:latest')
+                }
+            }
+        }
+        stage('Push Docker image to Docker Hub') {
+            steps {
+                // Push Docker image to Docker Hub
+                script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerHubCredentials') {
-                        docker.image('yourdockerhubusername/yourapp:latest').push()
+                        docker.image('assignment1:latest').push()
                     }
                 }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Deploy the Docker image (you can add deployment steps here)
+                // For example, you might deploy the Docker image to a Kubernetes cluster or a cloud platform.
             }
         }
     }
@@ -27,9 +49,16 @@ pipeline {
     post {
         success {
             emailext (
-                to: 'admin@example.com',
+                to: 'i200591@nu.edu.pk',
                 subject: 'Jenkins Job Successful',
                 body: 'The Jenkins job has been successfully executed.'
+            )
+        }
+        failure {
+            emailext (
+                to: 'i200591@nu.edu.pk',
+                subject: 'Jenkins Job Failed',
+                body: 'The Jenkins job has failed. Please investigate.'
             )
         }
     }

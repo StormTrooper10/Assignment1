@@ -11,7 +11,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 // Install dependencies using pip
-                bat 'pip install -r requirements.txt'
+                bat 'C:\Users\gulom\AppData\Local\Programs\Python\Python312\Scripts\pip.exe install -r requirements.txt'
             }
         }
         stage('Run tests') {

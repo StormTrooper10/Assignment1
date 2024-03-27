@@ -38,12 +38,6 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                // Deploy the Docker image (you can add deployment steps here)
-                // For example, you might deploy the Docker image to a Kubernetes cluster or a cloud platform.
-            }
-        }
     }
     
     post {

@@ -24,7 +24,7 @@ pipeline {
             steps {
                 // Build Docker image
                 script {
-                    docker.build('assignment1:latest')
+                    docker.build('assignment1:latest2')
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
                 // Push Docker image to Docker Hub
                 script {
                     docker.withRegistry('', 'dockerHubCredentials') {
-                        docker.image('assignment1:latest').push()
+                        docker.image('assignment1:latest2').push()
                     }
                 }
             }

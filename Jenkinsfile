@@ -32,7 +32,7 @@ pipeline {
             steps {
                 // Push Docker image to Docker Hub
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerHubCredentials') {
+                    docker.withRegistry('', 'dockerHubCredentials') {
                         docker.image('assignment1:latest').push()
                     }
                 }

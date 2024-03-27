@@ -17,7 +17,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 // Run tests using pytest
-                bat 'python test.py'
+                bat 'C:\\Users\\gulom\\AppData\\Local\\Programs\\Python\\Python312\\python.exe test.py'
             }
         }
         stage('Build Docker image') {

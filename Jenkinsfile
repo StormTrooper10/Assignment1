@@ -25,19 +25,18 @@ pipeline {
                 // Build Docker image
                 script {
                     docker.build('assignment1:latest')
+                    docker.withRegistry('', 'dockerHubCredentials') {
+                        docker.image('assignment1:latest').push()
+                    }
                 }
             }
         }
         stage('Push Docker image to Docker Hub') {
             steps {
-                // Login to Docker Hub
-                bat 'docker login -u <gulomer10> -p <october2001>'
-                
-                // Tag Docker image
-                bat 'docker tag assignment1:latest <gulomer10>/assignment1:latest'
-                
-                // Push Docker image to Docker Hub
-                bat 'docker push <gulomer10>/assignment1:latest'
+               script {
+                    docker.withRegistry('', 'dockerHubCredentials') {
+                        docker.image('assignment1:latest').push()
+                    }
             }
         }
     }

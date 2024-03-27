@@ -30,12 +30,14 @@ pipeline {
         }
         stage('Push Docker image to Docker Hub') {
             steps {
+                // Login to Docker Hub
+                bat 'docker login -u <gulomer10> -p <october2001>'
+                
+                // Tag Docker image
+                bat 'docker tag assignment1:latest <gulomer10>/assignment1:latest'
+                
                 // Push Docker image to Docker Hub
-                script {
-                    docker.withRegistry('', 'dockerHubCredentials') {
-                        docker.image('assignment1:latest').push()
-                    }
-                }
+                bat 'docker push <gulomer10>/assignment1:latest'
             }
         }
     }

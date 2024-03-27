@@ -11,13 +11,13 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 // Install dependencies using pip
-                sh 'pip install -r requirements.txt'
+                python 'pip install -r requirements.txt'
             }
         }
         stage('Run tests') {
             steps {
                 // Run tests using pytest
-                sh 'pytest'
+                python 'pytest'
             }
         }
         stage('Build Docker image') {

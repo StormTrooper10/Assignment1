@@ -9,6 +9,7 @@ Assignment 1
     - Implement Multiply Functionality
     - Set up Docker permissions
     - Set up Jenkins for repo
+    - Set up Permissions for repo
 
 ## Danial Bin Abdullah 20i-0705
     - Set up Docker

@@ -12,15 +12,13 @@ pipeline {
 
     stages { 
 
-        stage('Cloning our Git') { 
-
-            steps { 
-
-                git 'https://github.com/StormTrooper10/Assignment1.git' 
-
+        stage('Checkout') {
+            steps {
+                // Checkout the code from the repository
+                git branch: 'main', url: 'https://github.com/StormTrooper10/Assignment1.git'
             }
+        }
 
-        } 
 
         stage('Building our image') { 
 

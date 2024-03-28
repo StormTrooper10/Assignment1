@@ -52,15 +52,23 @@ pipeline {
 
         } 
 
-        stage('Cleaning up') { 
-
-            steps { 
-
-                sh "docker rmi $registry:$BUILD_NUMBER" 
-
+             post {
+            success {
+                emailext (
+                    to: 'i200591@nu.edu.pk',
+                    subject: 'Jenkins Job Successful',
+                    body: 'The Jenkins job has been successfully executed.'
+                )
             }
+            failure {
+                emailext (
+                    to: 'i200591@nu.edu.pk',
+                    subject: 'Jenkins Job Failed',
+                    body: 'The Jenkins job has failed. Please investigate.'
+                )
+            }
+        }
 
-        } 
 
     }
 

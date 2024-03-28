@@ -1,60 +1,71 @@
-pipeline {
-    agent any
-    
-    stages {
-        stage('Checkout') {
-            steps {
-                // Checkout the code from the repository
-                git branch: 'main', url: 'https://github.com/StormTrooper10/Assignment1.git'
+pipeline { 
+2
+    environment { 
+3
+        registry = "gulomer10/assignment1" 
+4
+        registryCredential = 'dockerHubCredentials' 
+5
+        dockerImage = '' 
+6
+    }
+7
+    agent any 
+8
+    stages { 
+9
+        stage('Cloning our Git') { 
+10
+            steps { 
+11
+                git 'https://github.com/StormTrooper10/Assignment1.git' 
+12
             }
-        }
-        stage('Install dependencies') {
-            steps {
-                // Install dependencies using pip
-                bat 'C:\\Users\\gulom\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\pip.exe install -r requirements.txt'
-            }
-        }
-        stage('Run tests') {
-            steps {
-                // Run tests using pytest
-                bat 'C:\\Users\\gulom\\AppData\\Local\\Programs\\Python\\Python312\\python.exe test.py'
-
-            }
-        }
-        stage('Build Docker image') {
-            steps {
-                // Build Docker image
-                script {
-                    docker.build('assignment1:latest')
+13
+        } 
+14
+        stage('Building our image') { 
+15
+            steps { 
+16
+                script { 
+17
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+18
                 }
-            }
+19
+            } 
+20
         }
-        stage('Push Docker image to Docker Hub') {
-            steps {
-                // Push Docker image to Docker Hub
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerHubCredentials') {
-                        docker.image('assignment1:latest').push()
+21
+        stage('Deploy our image') { 
+22
+            steps { 
+23
+                script { 
+24
+                    docker.withRegistry( '', registryCredential) { 
+25
+                        dockerImage.push() 
+26
                     }
-                }
+27
+                } 
+28
             }
-        }
+29
+        } 
+30
+        stage('Cleaning up') { 
+31
+            steps { 
+32
+                sh "docker rmi $registry:$BUILD_NUMBER" 
+33
+            }
+34
+        } 
+35
     }
-    
-    post {
-        success {
-            emailext (
-                to: 'i200591@nu.edu.pk',
-                subject: 'Jenkins Job Successful',
-                body: 'The Jenkins job has been successfully executed.'
-            )
-        }
-        failure {
-            emailext (
-                to: 'i200591@nu.edu.pk',
-                subject: 'Jenkins Job Failed',
-                body: 'The Jenkins job has failed. Please investigate.'
-            )
-        }
-    }
+36
 }
